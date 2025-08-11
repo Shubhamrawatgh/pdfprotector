@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PDF Protector (Static)</title>
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
     <link rel="stylesheet" href="styles.css">
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🔒</text></svg>">
 </head>
@@ -17,6 +19,7 @@
 
         <main>
             <div id="drop-zone">
+                <i class="fa-regular fa-file-pdf"></i>
                 <p>Drag & Drop a PDF here</p>
                 <p>or</p>
                 <input type="file" id="file-input" accept=".pdf">
@@ -55,7 +58,11 @@
                     </div>
                 </fieldset>
 
-                <button type="submit" id="protect-btn">Protect PDF</button>
+                <!-- The button now includes a span for the spinner -->
+                <button type="submit" id="protect-btn">
+                    <span class="btn-text">Protect PDF</span>
+                    <span class="spinner"></span>
+                </button>
             </form>
 
             <div id="status-log"></div>
@@ -66,6 +73,7 @@
         </footer>
     </div>
 
+    <!-- CDN for pdf.js (for page count) and fflate (for ZIP fallback) -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.11.338/pdf.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/fflate@0.7.3/umd/index.min.js"></script>
     <script src="app.js"></script>
