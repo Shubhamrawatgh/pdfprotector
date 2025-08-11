@@ -1,17 +1,32 @@
 :root {
-    --primary-color: #007bff;
-    --primary-hover: #0056b3;
-    --background-color: #f4f7f9;
+    --primary-color: #4A90E2; /* Softer Blue */
+    --secondary-color: #F39C12; /* Warm Orange */
+    --text-color: #1F2D3D;
     --container-bg: #ffffff;
-    --text-color: #333;
-    --border-color: #ddd;
+    --border-color: #CFDEF3;
     --error-color: #d9534f;
-    --success-color: #5cb85c;
+    --success-color: #28a745;
+    --light-text: #5a6877;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes glow {
+    from {
+        box-shadow: 0 0 5px -5px var(--secondary-color), 0 0 10px -5px var(--secondary-color), 0 0 15px -5px var(--secondary-color);
+    }
+    to {
+        box-shadow: 0 0 5px 0px var(--secondary-color), 0 0 10px 0px var(--secondary-color), 0 0 15px 0px var(--secondary-color);
+    }
 }
 
 body {
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-    background-color: var(--background-color);
+    background: linear-gradient(135deg, #E0EAFC, #CFDEF3);
     color: var(--text-color);
     margin: 0;
     padding: 20px;
@@ -23,9 +38,9 @@ body {
 
 #app-container {
     background-color: var(--container-bg);
-    padding: 30px;
-    border-radius: 8px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    padding: 30px 40px;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
     width: 100%;
     max-width: 600px;
     text-align: center;
@@ -37,60 +52,106 @@ header h1 {
 }
 
 header p {
-    color: #666;
+    color: var(--light-text);
     margin-bottom: 2rem;
 }
 
 #drop-zone {
-    border: 2px dashed var(--border-color);
-    border-radius: 8px;
-    padding: 40px 20px;
+    border: 3px dashed var(--border-color);
+    border-radius: 12px;
+    padding: 30px 20px;
+    min-height: 200px;
     margin-bottom: 20px;
     cursor: pointer;
-    transition: background-color 0.2s ease, border-color 0.2s ease;
+    transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
-#drop-zone.dragover {
-    background-color: #e9f5ff;
+#drop-zone.dragover,
+#drop-zone:hover {
+    background-color: #f8fbff;
     border-color: var(--primary-color);
+    animation: glow 0.8s infinite alternate;
+}
+
+#drop-zone .fa-file-pdf {
+    font-size: 48px;
+    color: var(--primary-color);
+    margin-bottom: 15px;
 }
 
 #drop-zone p {
-    margin: 0.5em 0;
+    margin: 0.25em 0;
+    color: var(--light-text);
 }
 
 #file-input {
-    display: none; /* Hide the default input */
+    display: none;
 }
 
 .button, #protect-btn {
     display: inline-block;
-    background-color: var(--primary-color);
+    background-image: linear-gradient(to right, var(--primary-color) 0%, #357ABD 50%, var(--primary-color) 100%);
+    background-size: 200% auto;
     color: white;
-    padding: 12px 20px;
+    padding: 14px 22px;
     border: none;
-    border-radius: 5px;
+    border-radius: 8px;
     cursor: pointer;
     font-size: 16px;
     font-weight: bold;
     text-align: center;
-    transition: background-color 0.2s ease;
+    transition: all 0.4s ease;
     text-decoration: none;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.button:hover, #protect-btn:hover {
-    background-color: var(--primary-hover);
+.button:hover, #protect-btn:hover:not(:disabled) {
+    background-position: right center; /* Gradient shift */
+    transform: translateY(-3px); /* 3D lift */
+    box-shadow: 0 6px 12px rgba(74, 144, 226, 0.3);
 }
 
 #protect-btn {
     width: 100%;
     margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 #protect-btn:disabled {
+    background-image: none;
     background-color: #aaa;
     cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
 }
+
+/* Spinner styles */
+.spinner {
+    display: none; /* Hidden by default */
+    width: 20px;
+    height: 20px;
+    border: 3px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    border-top-color: #fff;
+    animation: spin 1s ease-in-out infinite;
+    margin-left: 10px;
+}
+
+/* When the button is processing, show the spinner */
+/* Your JS should add the 'processing' class to the button */
+#protect-btn.processing .spinner {
+    display: inline-block;
+}
+#protect-btn.processing .btn-text {
+    /* Optionally hide original text, but your JS already changes it */
+}
+
 
 .hidden {
     display: none;
@@ -99,7 +160,7 @@ header p {
 #file-info {
     background-color: #f9f9f9;
     border: 1px solid var(--border-color);
-    border-radius: 5px;
+    border-radius: 8px;
     padding: 15px;
     margin-bottom: 20px;
     text-align: left;
@@ -125,23 +186,30 @@ header p {
 
 .form-group small {
     display: block;
-    color: #666;
+    color: var(--light-text);
     margin-top: 5px;
     font-size: 0.85em;
 }
 
 input[type="password"] {
     width: 100%;
-    padding: 10px;
+    padding: 12px;
     border: 1px solid var(--border-color);
-    border-radius: 5px;
-    box-sizing: border-box; /* Important */
+    border-radius: 8px;
+    box-sizing: border-box;
     font-size: 16px;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+input[type="password"]:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.2);
 }
 
 fieldset {
     border: 1px solid var(--border-color);
-    border-radius: 5px;
+    border-radius: 8px;
     padding: 15px;
 }
 
@@ -152,6 +220,7 @@ fieldset:disabled {
 legend {
     font-weight: bold;
     padding: 0 10px;
+    color: var(--text-color);
 }
 
 .checkbox-group {
@@ -162,31 +231,34 @@ legend {
 
 .checkbox-group input {
     margin-right: 10px;
+    accent-color: var(--primary-color);
+    width: 1.15em;
+    height: 1.15em;
 }
 
 #status-log {
     margin-top: 20px;
     padding: 15px;
-    border-radius: 5px;
+    border-radius: 8px;
     font-weight: bold;
 }
 
 .status-info {
     background-color: #e9f5ff;
     border: 1px solid var(--primary-color);
-    color: var(--primary-color);
+    color: #004085;
 }
 
 .status-success {
-    background-color: #dff0d8;
+    background-color: #d4edda;
     border: 1px solid var(--success-color);
-    color: #3c763d;
+    color: #155724;
 }
 
 .status-error {
-    background-color: #f2dede;
+    background-color: #f8d7da;
     border: 1px solid var(--error-color);
-    color: #a94442;
+    color: #721c24;
 }
 
 footer {
@@ -198,4 +270,5 @@ footer {
 footer a {
     color: var(--primary-color);
     text-decoration: none;
+    font-weight: bold;
 }
