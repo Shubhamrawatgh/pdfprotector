@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PDF Protector (Static)</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🔒</text></svg>">
+</head>
+<body>
+
+    <div id="app-container">
+        <header>
+            <h1>PDF Protector (Static) 🔒</h1>
+            <p>Add a password to a PDF entirely in your browser. Your files never leave your computer.</p>
+        </header>
+
+        <main>
+            <div id="drop-zone">
+                <p>Drag & Drop a PDF here</p>
+                <p>or</p>
+                <input type="file" id="file-input" accept=".pdf">
+                <label for="file-input" class="button">Select PDF File</label>
+            </div>
+
+            <div id="file-info" class="hidden">
+                <p><strong>File:</strong> <span id="file-name"></span></p>
+                <p><strong>Pages:</strong> <span id="page-count">Loading...</span></p>
+            </div>
+
+            <form id="options-form" class="hidden">
+                <h2>Encryption Options</h2>
+
+                <div class="form-group">
+                    <label for="open-password">PDF Open Password (User Password)</label>
+                    <input type="password" id="open-password" placeholder="Leave blank for no open password">
+                    <small>Required to open and view the PDF.</small>
+                </div>
+
+                <div class="form-group">
+                    <label for="permissions-password">Permissions Password (Owner Password)</label>
+                    <input type="password" id="permissions-password" placeholder="Required to set permissions">
+                    <small>Required to change permissions or remove passwords.</small>
+                </div>
+
+                <fieldset id="permissions-fieldset" disabled>
+                    <legend>Permissions (Requires Permissions Password)</legend>
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="allow-printing" checked>
+                        <label for="allow-printing">Allow Printing</label>
+                    </div>
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="allow-copying" checked>
+                        <label for="allow-copying">Allow Copying</label>
+                    </div>
+                </fieldset>
+
+                <button type="submit" id="protect-btn">Protect PDF</button>
+            </form>
+
+            <div id="status-log"></div>
+        </main>
+
+        <footer>
+            <p>Powered by client-side JavaScript & WebAssembly. <a href="https://github.com/your-username/pdf-protector-static" target="_blank">View on GitHub</a></p>
+        </footer>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.11.338/pdf.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/fflate@0.7.3/umd/index.min.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
